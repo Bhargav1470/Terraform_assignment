@@ -17,6 +17,7 @@ pipeline {
             }
         stage('Terraform Plan') {
             steps {
+                withAWS(credentialsId: 'aws')
                 // Generate Terraform plan
                 script {
                     def tfHome = tool 'Terraform'
@@ -27,6 +28,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
+                withAWS(credentialsId: 'aws')
                 // Apply Terraform changes
                 script {
                     def tfHome = tool 'Terraform'
