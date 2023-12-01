@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Terraform Init') {
             steps {
-                withAWS(region: AWS_REGION,credentialsId: 'aws')
+                withAWS(region: AWS_REGION, credentials: 'aws')
                     script {
                         def tfHome = tool 'Terraform'
                         sh "${tfHome}/terraform init -input=false"
@@ -27,7 +27,7 @@ pipeline {
             }
         stage('Terraform Plan') {
             steps {
-                withAWS(region: AWS_REGION,credentialsId: 'aws')
+                withAWS(region: AWS_REGION, credentials: 'aws')
                 // Generate Terraform plan
                 script {
                     def tfHome = tool 'Terraform'
@@ -38,7 +38,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                withAWS(region: AWS_REGION,credentialsId: 'aws')
+                withAWS(region: AWS_REGION, credentials: 'aws')
                 // Apply Terraform changes
                 script {
                     def tfHome = tool 'Terraform'
