@@ -1,37 +1,52 @@
 pipeline {
-  agent any
-  
-  stages {
-    stage('Terraform Init') {
-      steps {
-        script {
-          sh 'terraform init -input=false'
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from your version control system (Git, SVN, etc.)
+                git credentialsId: '45092695-6c50-4dbe-b875-4450ff22b2c7', url: 'YOUR_GIT_REPO_URL'
+            }
         }
-      }
-    }
-    
-    stage('Terraform Plan') {
-      steps {
-        script {
-          sh 'terraform plan -out=tfplan -input=false'
+
+        stage('Terraform Init') {
+            steps {
+                // Initialize Terraform workspace
+                script {
+                    def tfHome = tool 'Terraform'
+                    sh "${tfHome}/terraform init -input=false"
+                }
+            }
         }
-      }
-    }
-    
-    stage('Terraform Apply') {
-      steps {
-        script {
-          sh 'terraform apply -input=false -auto-approve tfplan'
+
+        stage('Terraform Plan') {
+            steps {
+                // Generate Terraform plan
+                script {
+                    def tfHome = tool 'Terraform'
+                    sh "${tfHome}/terraform plan -out=tfplan -input=false"
+                }
+            }
         }
-      }
+
+        stage('Terraform Apply') {
+            steps {
+                // Apply Terraform changes
+                script {
+                    def tfHome = tool 'Terraform'
+                    sh "${tfHome}/terraform apply -input=false tfplan"
+                }
+            }
+        }
+
+        stage('Terraform Destroy') {
+            steps {
+                // Destroy infrastructure
+                script {
+                    def tfHome = tool 'Terraform'
+                    sh "${tfHome}/terraform destroy -auto-approve -input=false"
+                }
+            }
+        }
     }
-  }
-  
-  post {
-    always {
-      script {
-        sh 'terraform destroy -auto-approve'
-      }
-    }
-  }
 }
