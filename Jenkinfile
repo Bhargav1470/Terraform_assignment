@@ -10,7 +10,7 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM', 
                          branches: [[name: '*/main']],
-                         userRemoteConfigs: [[credentialsId: '45092695-6c50-4dbe-b875-4450ff22b2c7',
+                         userRemoteConfigs: [[credentialsId: 'Github-pass',
                              url: 'https://github.com/Bhargav1470/Jenkins_assignment.git'
                          ]] // Use the ID of the credentials you added
                      ])
