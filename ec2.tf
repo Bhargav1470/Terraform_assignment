@@ -2,7 +2,7 @@
 
 provider "aws" {
   region = "us-east-1" # Update with your desired region
-  profile = "default"
+  # profile = "default"
 }
 resource "aws_instance" "public_instance" {
   ami                    = "ami-0230bd60aa48260c6" # Replace with your AMI ID
