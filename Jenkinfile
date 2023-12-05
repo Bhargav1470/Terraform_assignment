@@ -6,16 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', 
-                         branches: [[name: '*/main']],
-                         userRemoteConfigs: [[credentialsId: 'Github-pass',
-                             url: 'https://github.com/Bhargav1470/Jenkins_assignment.git'
-                         ]] // Use the ID of the credentials you added
-                     ])
-            }
-        }
         stage('Terraform Init') {
             steps {
                 withAWS(region: AWS_REGION, credentials: 'aws')
